@@ -1,13 +1,13 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
-import Layout from '@components/Layout';
-import Section from '@components/Section';
-import Container from '@components/Container';
-import Button from '@components/Button';
-import Form from '@components/Form';
-import FormRow from '@components/FormRow';
+import Layout from "@components/Layout";
+import Section from "@components/Section";
+import Container from "@components/Container";
+import Button from "@components/Button";
+import Form from "@components/Form";
+import FormRow from "@components/FormRow";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -16,10 +16,21 @@ export default function Dashboard() {
     e.preventDefault();
 
     const fields = Array.from(e.currentTarget.elements);
-    const product = fields.filter(({ type }) => type !== 'submit').reduce((prev, current) => {
-      prev[current.name] = current.value;
-      return prev;
-    }, {});
+    const product = fields
+      .filter(({ type }) => type !== "submit")
+      .reduce((prev, current) => {
+        prev[current.name] = current.value;
+        return prev;
+      }, {});
+
+    const results = await fetch("/api/products/add", {
+      method: "POST",
+      body: JSON.stringify(product),
+    }).then((r) => r.json());
+
+    if (results?.data?.id) {
+      router.push(`/`);
+    }
   }
 
   return (
@@ -57,5 +68,5 @@ export default function Dashboard() {
         </Container>
       </Section>
     </Layout>
-  )
+  );
 }
