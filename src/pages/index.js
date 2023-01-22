@@ -21,12 +21,10 @@ export default function Dashboard() {
   return (
     <Layout>
       <Head>
-        <title>Space Jelly Store</title>
-        <meta name="description" content="Apparel that's out of this world!" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Learn Quranik Arabic</title> <meta name="description" content="Learn Quranik Arabic" /> <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1 className="sr-only">Space Jelly Store</h1>
+      <h1 className="sr-only">Learn Quranik Arabic</h1>
 
       <Section>
         <Container className={styles.actionsContainer}>

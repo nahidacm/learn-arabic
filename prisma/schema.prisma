@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  posts   Post[]
+  profile Profile?
+}
+
+model words {
+  id             Int             @id @default(autoincrement())
+  word           String          @db.VarChar(55)
+  category       String          @db.VarChar(55)
+  count_in_quran Int
+  word_meanings  word_meanings[]
+  examples       examples[]
+}
+
+model word_meanings {
+  id           Int    @id @default(autoincrement())
+  words        words  @relation(fields: [word_id], references: [id])
+  word_id      Int
+  word_meaning String @db.VarChar(255)
+}
+
+model examples {
+  id               Int    @id @default(autoincrement())
+  words            words  @relation(fields: [word_id], references: [id])
+  word_id          Int
+  sentence         String @db.VarChar(511)
+  sentence_meaning String @db.VarChar(511)
+}
